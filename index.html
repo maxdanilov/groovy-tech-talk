@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="highlight/styles/default.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css"> -->
+    <title>Groovy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/ribbon/styles/styles.css">
+    <style>
+        .slide {
+            padding: 70px;
+            padding-top: 55px;
+        }
+
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+
+        li {
+            font-size: 28px;
+        }
+
+        h2 {
+                top: -20px;
+                margin-bottom: 20px !important;
+                color: black;
+                text-align: center;
+                font-size: 100px;
+            }
+
+        h3 {
+                text-align: center;
+                font-size: 48px;
+            }
+
+        #cover h2 {
+                margin: 20px 0 0;
+                color: black;
+                text-align: center;
+                font-size: 100px;
+            }
+
+        code {
+            /*padding: 5px !important;*/
+        }
+    </style>
+</head>
+<body class="shower list">
+    <script src="highlight/highlight.pack.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script> -->
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <section class="slide clear" id="cover">
+        <h2>Apache Groovy</h2>
+        <img
+            class="place center bottom"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Groovy-logo.svg/2560px-Groovy-logo.svg.png"
+            style="width: 60%;top: 260px;"
+        >
+    </section>
+
+    <section class="slide clear">
+        <h2>What is it?</h2>
+        <ul>
+            <li class="next">Language designed to be an extension of Java and native to JVM</li>
+            <li class="next">"Java + dynamic types + closures"</li>
+            <li class="next">75% Java, 10% Ruby, 10% Python, 5% black f<span style="background-color: black">uckin</span>g magic and pain</li>
+            <li class="next">Very suitable for <a href="http://docs.groovy-lang.org/docs/latest/html/documentation/core-domain-specific-languages.html">DSL</a></li>
+            <li class="next">Used for scripting & backend</li>
+            <li class="next">High development speed</li>
+            <li class="next">49<sup>th</sup> (2018) → 11<sup>th</sup> (2019) in TIOBE index</li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>Known for</h2>
+        <ul>
+            <li><a href="https://gradle.org/">Gradle</a> build system</li>
+            <li><a href="https://grails.org/">Grails</a> web framework</li>
+            <li><a href="https://jenkins.io/">Jenkins</a> CI/CD</li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>Hidden <code style="groovy">public</code>, crunching <code style="groovy">private</code></h2>
+        <ul>
+            <li class="next"><code>public</code> is default, don't specify it</li>
+            <pre class="next">
+                <code class="groovy"><strike>public</strike> def sum(def a, def b) { a + b }</code>
+            </pre>
+
+            <li class="next"><code>private</code> & <code>protected</code> methods are accessible by anyone. <a href="https://issues.apache.org/jira/browse/GROOVY-1875">GROOVY-1875</a>!</li>
+
+            <li class="next">⚠️ IntelliJ can't detect usage of private methods in tests. Solution: <code>private</code> → <code>protected</code></li>
+
+            <li class="next">💡 <code>PPP</code> are not access modifiers, but semantic notations</li>
+        </ol>
+    </section>
+
+    <section class="slide clear">
+        <h2>Hidden <code style="groovy">public</code>, crunching <code style="groovy">private</code></h2>
+        <figure>
+            <blockquote>
+                <p>Technically, this is a bug in Groovy (that has been there since day one), but it's so insanely useful, no one has bothered to fix it. <b>And I hope they never do.</b> In any language with strong reflection capabilities, the private keyword is not much more than documentation anyway: I can always use reflection to get to it if the need arises.</p>
+                <br/>
+            </blockquote>
+            <figcaption style="text-align:right">Neil Ford, "The Productive Programmer"</figcaption>
+        </figure>
+    </section>
+
+    <section class="slide clear">
+        <h2>Autoformatting with IntelliJ</h2>
+        <span class="next">
+            <h3>
+                <code>⌥ ⌘ L</code>
+            </h3>
+            <h3>
+                <code>Shift + Alt + L</code>
+            </h3>
+        </span>
+
+        <img class="next place center bottom" src="http://icons.iconarchive.com/icons/tatice/cristal-intense/256/Rubiks-cube-2-icon.png"
+            style="width: 100px; padding-bottom: 40px;">
+        <img class="next place center bottom" src="http://icons.iconarchive.com/icons/tatice/cristal-intense/256/Rubiks-cube-icon.png"
+            style="width: 100px; padding-bottom: 40px;">
+     </section>
+
+    <section class="slide clear" style="background-color: black">
+        <img src="https://pepelsbey.net/pres/inhuman-ui/pictures/arigato.jpg"
+             class="cover">
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout">Questions?</h2>
+    </section>
+
+
+    <script src="shower/shower.min.js"></script>
+
+</body>
+</html>
