@@ -494,17 +494,6 @@ assert 'hello'.split('').last() == 'o' // ⚠️ fails if null/[]</code>
         </pre>
     </section>
 
-        <!-- <section class="slide clear">
-            <h2>Lists: Example</h2>
-            <pre><code class="groovy bad">for (comment in pullRequest.comments) {
-        if (comment.user == pullRequest.gitHubClient.user) {
-            comment.delete()
-        }
-    }</code></pre>
-            <pre class="next"><code>pullRequest.comments.findAll {
-        it.user == pullRequest.gitHubClient.user }*.delete()</code></pre>
-        </section> -->
-
     <section class="slide clear">
         <h2>Maps: Adding/Merging</h2>
         <pre>
@@ -714,21 +703,6 @@ def c = new Company(name: 'DEF')</code>
             <li class="next">💡 <code>PPP</code> are <strike>access modifiers</strike> semantic notations</li>
             </ol>
     </section>
-
-    <!-- <section class="slide clear">
-        <h2>Crouching <code>private</code>, hidden <code>public</code></h2>
-        <br />
-        <figure>
-            <blockquote>
-                <p style="text-align: justify;">Technically, this is a bug in Groovy (that has been there since day
-                    one), but it's so insanely useful, no one has bothered to fix it. <b>And I hope they never do.</b>
-                    In any language with strong reflection capabilities, the private keyword is not much more than
-                    documentation anyway: I can always use reflection to get to it if the need arises.</p>
-                <br />
-            </blockquote>
-            <figcaption style="text-align:right">Neil Ford, "The Productive Programmer"</figcaption>
-        </figure>
-    </section> -->
 
     <section class="slide clear">
         <h2>Power Switch 🔌</h2>
