@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="highlight/styles/default.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
     <title>Groovy</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +13,30 @@
             padding-top: 55px;
         }
 
+        .hljs {
+            background-color: #fff3d7 !important;
+        }
+
+        .hljs.bad {
+            background-color: #f5dbda !important;
+        }
+
+        .slide {
+            padding-top: 40px;
+        }
+
+        .slide pre mark {
+            z-index: 0;
+        }
+
+        .slide pre mark.warning {
+            background-color: orange !important;
+        }
+
+        .slide pre {
+            margin-bottom: 15px;
+        }
+
         .shower {
             --slide-ratio: calc(16 / 9);
         }
@@ -21,96 +45,881 @@
             font-size: 28px;
         }
 
+        p {
+            font-size: 28px;
+        }
+
         h2 {
-                top: -20px;
-                margin-bottom: 20px !important;
-                color: black;
-                text-align: center;
-                font-size: 100px;
-            }
+            top: -20px;
+            margin-bottom: 20px !important;
+            color: black;
+            text-align: center;
+            font-size: 100px;
+        }
 
         h3 {
-                text-align: center;
-                font-size: 48px;
-            }
+            text-align: center;
+            font-size: 48px;
+        }
 
         #cover h2 {
-                margin: 20px 0 0;
-                color: black;
-                text-align: center;
-                font-size: 100px;
-            }
+            margin: 20px 0 0;
+            color: black;
+            text-align: center;
+            font-size: 100px;
+        }
 
-        code {
-            /*padding: 5px !important;*/
+        .strike {
+            text-decoration: line-through;
         }
     </style>
 </head>
+
 <body class="shower list">
-    <script src="highlight/highlight.pack.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
+    <script>
+        time = new Date();
+        totalTime = 0;
+        hash = '';
+
+        window.addEventListener('hashchange', function() {
+            deltaTime = Math.round((new Date() - time) / 1000);
+            totalTime += deltaTime;
+            console.log("Slide #" + hash + ", " + deltaTime + " s" + ", Total time " + totalTime + "s");
+            time = new Date();
+            hash = window.location.hash.substr(1);
+        });
+    </script>
+
     <section class="slide clear" id="cover">
-        <h2>Apache Groovy</h2>
-        <img
-            class="place center bottom"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Groovy-logo.svg/2560px-Groovy-logo.svg.png"
-            style="width: 60%;top: 260px;"
-        >
+        <img class="place center" alt="Apache GROOVY-1875" src="images/groovy-logo.png" style="width: 60%;top: 260px;">
     </section>
 
     <section class="slide clear">
-        <h2>What is it?</h2>
+        <h2>What is it? 🤔</h2>
         <ul>
-            <li class="next">Language designed to be an extension of Java and native to JVM</li>
-            <li class="next">"Java + dynamic types + closures"</li>
-            <li class="next">75% Java, 10% Ruby, 10% Python, 5% black f<span style="background-color: black">uckin</span>g magic and pain</li>
-            <li class="next">Very suitable for <a href="http://docs.groovy-lang.org/docs/latest/html/documentation/core-domain-specific-languages.html">DSL</a></li>
+            <li class="next">Designed to be an extension of Java and native to JVM</li>
+            <li class="next">«Java + dynamic types + closures»</li>
+            <li class="next">75% Java, 12% Ruby, 8% Python, 5% black f<span
+                    style="background-color: black">-----</span>g magic and pain</li>
+            <li class="next">Very suitable for <a target=_blank
+                    href="http://docs.groovy-lang.org/docs/latest/html/documentation/core-domain-specific-languages.html">DSL</a>
+            </li>
             <li class="next">Used for scripting & backend</li>
             <li class="next">High development speed</li>
-            <li class="next">49<sup>th</sup> (2018) → 11<sup>th</sup> (2019) in TIOBE index</li>
+            <li class="next">14<sup>th</sup> in <a target=_blank href="https://www.tiobe.com/tiobe-index/">TIOBE</a>
+                (Nov. 2019)</li>
         </ul>
     </section>
 
     <section class="slide clear">
         <h2>Known for</h2>
         <ul>
-            <li><a href="https://gradle.org/">Gradle</a> build system</li>
-            <li><a href="https://grails.org/">Grails</a> web framework</li>
-            <li><a href="https://jenkins.io/">Jenkins</a> CI/CD</li>
+            <li><a target=_blank href="https://gradle.org/">Gradle</a> build system</li>
+            <li><a target=_blank href="https://grails.org/">Grails</a> web framework</li>
+            <li><a target=_blank href="https://micronaut.io/">Micronaut</a> microservice framework</li>
+            <li><a target=_blank href="https://jenkins.io/">Jenkins</a> CI/CD</li>
         </ul>
     </section>
 
     <section class="slide clear">
-        <h2>Hidden <code style="groovy">public</code>, crunching <code style="groovy">private</code></h2>
+        <h2>Compability with Java</h2>
+        <p>Not supported:</p>
         <ul>
-            <li class="next"><code>public</code> is default, don't specify it</li>
-            <pre class="next">
-                <code class="groovy"><strike>public</strike> def sum(def a, def b) { a + b }</code>
-            </pre>
-
-            <li class="next"><code>private</code> & <code>protected</code> methods are accessible by anyone. <a href="https://issues.apache.org/jira/browse/GROOVY-1875">GROOVY-1875</a>!</li>
-
-            <li class="next">⚠️ IntelliJ can't detect usage of private methods in tests. Solution: <code>private</code> → <code>protected</code></li>
-
-            <li class="next">💡 <code>PPP</code> are not access modifiers, but semantic notations</li>
-        </ol>
+            <li>Lambda functions</li>
+            <li><code>do-while</code> loops</li>
+            <li><a target=_blank href="https://groovy-lang.org/differences.html">other small things</a></li>
+        </ul>
     </section>
 
     <section class="slide clear">
-        <h2>Hidden <code style="groovy">public</code>, crunching <code style="groovy">private</code></h2>
+        <h2>Verbosity</h2>
+        <img src="images/java-vs-groovy.png" alt="Java vs Groovy: You vs the guy she told you not to worry about"
+            class="cover" style="top: 320px; height: 340px;">
+    </section>
+
+    <section class="slide clear">
+        <h2>Dynamic Typing</h2>
+        <pre>
+            <code>def a = 123
+Integer b = 123
+def c = "123" as Integer</code>
+        </pre>
+        <ul class="next">
+            <li>local vars can be <code>def</code> or type-specific</li>
+            <li>method signatures should be as type-specific as possible</li>
+        </ul>
+        <pre class="next java" style="margin-bottom: 0px;"><code class="bad">def calc(def x, def y)</code></pre>
+        <pre class="next java"
+            style="margin-bottom: 0px;"><code class="bad">def calc(x, y) // def in params can be skipped</code></pre>
+        <pre class="next java" style="margin-bottom: 0px;"><code>Float calc(Float x, Integer y)</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Omitting <code>return</code> & <code>;</code></h2>
+        <br />
+        <pre>
+            <code>Integer fib(Integer n) {</code>
+            <code class="bad">    if (n &lt; 2) return 1 <mark class="warning">;</mark></code>
+            <code class="bad">    <mark class="warning">return</mark> fib(n - 1) + fib(n - 2) <mark class="warning">;</mark></code>
+            <code>}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Omitting <code>return</code> & <code>;</code></h2>
+        <br />
+        <pre>
+            <code>Integer fib(Integer n) {</code>
+            <code>    if (n &lt; 2) <mark class="warning">return</mark> 1</code>
+            <code>    fib(n - 1) + fib(n - 2)</code>
+            <code>}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Omitting <code>()</code></h2>
+        <pre>
+            <code>def sum(a, b) {
+    a + b
+}</code>
+            <code>def a = sum(4, 5)</code>
+            <code>def b = sum 4, 5</code>
+            <code>println sum(4, 5)</code>
+        </pre>
+        <pre class="next">
+            <code>def noparam() { 123 }</code>
+            <code>def c = noparam()</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Groovy Truth 👩‍⚖️</h2>
+        <pre><code>if (&lt;expr&gt;) { ... }</code></pre>
+        <table width="100%">
+            <tr>
+                <td width="50%">
+                    <ul class="next">
+                        <li><code>true</code>, <code>!false</code></li>
+                        <li>non-empty lists: <code>[1, 2, 3]</code>, <code>![]</code></li>
+                        <li>non-empty maps: <code>[abc: 123]</code>, <code>![:]</code></li>
+                        <li>non-empty (G)strings: <code>'abc'</code>, <code>!""</code></li>
+                        <li>non-zero numbers: <code>1</code>, <code>-5.4</code>, <code>!0</code>, <code>!0.0f</code>
+                        </li>
+                        <li>non-null objects: <code>new Object()</code>, <code>!null</code></li>
+                    </ul>
+                </td>
+                <td width=10% class="next">
+                    <!-- <div> -->
+                    <pre><code style="padding-left: 20px;">def a = [1, 2, 3]
+<strike>if (!a.empty) {</strike>
+if (a) {
+    print '👍'
+}</code></pre>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+<!-- CLOSURES -->
+
+<section class="slide clear">
+        <h2>Closures</h2>
+        <blockquote style="margin-bottom: 15px;">
+            <p style="text-align: justify; margin-bottom: 0px !important;">
+                Closure is a piece of code that is defined and then executed at a later point.
+                It can take arguments, return a value and be assigned to a variable.
+                It may reference variables declared in its surrounding scope.
+            </p>
+        </blockquote>
+
+        <pre>
+            <code class="java next">def sum = { int a, int b -> a + b }</code>
+            <!-- <code class="java bad next">assert sum.call(2, 3) == 5</code> -->
+            <code class="java next">assert sum(2, 3) == 5</code>
+        </pre>
+
+        <pre>
+            <code class="java bad next">def greet = { name -> "Hello ${name}!" }</code>
+            <code class="java next">def greet = { "Hello ${it}!" } // ⚠️ implicit `it`</code>
+            <code class="java next">assert greet('John') == 'Hello John!'</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures: Delegation 🤯</h2>
+        <ul>
+            <li style="font-size: 22px;"><code>owner</code> - enclosing object where the closure is defined (either a class or a closure)</li>
+            <li style="font-size: 22px;"><code>delegate</code> - an object where methods calls or properties are resolved if the receiver of the message is not defined</li>
+            <li style="font-size: 22px;">by default, <code>owner</code> == <code>delegate</code>.</li>
+            <li style="font-size: 22px;"><code>delegate</code> can be changed.</li>
+        </ul>
+
+        <pre class="next">
+            <code class="java" style="font-size: 22px;">class One {</code>
+            <code class="java" style="font-size: 22px;">    def value() { "A" }</code>
+            <code class="java" style="font-size: 22px;">    def cl = { "value = ${value()}" } </code>
+            <code class="java" style="font-size: 22px;">} </code>
+            <code class="java" style="font-size: 22px;">println new One().cl() <span class="next">// A</span></code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures: Delegation Strategies 🤯</h2>
+        <ul>
+            <li><code>OWNER_FIRST</code> - <b>default</b>. If a property/method exists on the owner, call it on owner. Otherwise use the delegate.</li>
+            <li><code>OWNER_ONLY</code> - call the property/method on the owner, ignore delegate.</li>
+            <li><code>DELEGATE_FIRST</code></li>
+            <li><code>DELEGATE_ONLY</code></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures: Delegation Example</h2>
+        <pre>
+                <code class="java bad">def calendar = Calendar.instance
+<mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.clear()
+<mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.set <mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.YEAR, 2019
+<mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.set <mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.MONTH, <mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.DECEMBER
+<mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.set <mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.DAY_OF_MONTH, 2
+println <span style="font-size: 7px;"> </span><mark class="warning">calendar</mark><span style="font-size: 5px;"> </span>.time // Mon Dec 02 00:00:00 CET 2019</code>
+            </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures: Delegation Example</h2>
+        <pre>
+                <code class="java" style="font-size: 20px;">def closure = {</code>
+                    <code class="java" style="font-size: 20px;">    clear()</code>
+                    <code class="java" style="font-size: 20px;">    set YEAR, 2019</code>
+                    <code class="java" style="font-size: 20px;">    set MONTH, DECEMBER</code>
+                    <code class="java" style="font-size: 20px;">    set DAY_OF_MONTH, 2</code>
+                    <code class="java" style="font-size: 20px;">    println time</code>
+                    <code class="java" style="font-size: 20px;">}</code>
+                    <code class="java next" style="font-size: 20px;">def calendar = Calendar.instance</code>
+                    <code class="java next" style="font-size: 20px;">closure.delegate = <mark class="warning">calendar</mark></code>
+                    <code class="java next" style="font-size: 20px;">closure.resolveStrategy = <mark class="warning">Closure.DELEGATE_ONLY</mark></code>
+                    <code class="java next" style="font-size: 20px;">closure() // Mon Dec 02 00:00:00 CET 2019</code>
+</code>
+            </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures: <code>with</code></h2>
+        <pre>
+                <code class="java">def calendar = Calendar.instance
+calendar.with {
+    clear()
+    set YEAR, 2019
+    set MONTH, DECEMBER
+    set DAY_OF_MONTH, 2
+    println time // Mon Dec 02 00:00:00 CET 2019
+}</code>
+            </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Closures as Method Params</h2>
+        <pre>
+            <code class="java">def method(Closure cl) { cl 'world' }</code>
+            <code class="java">def closure = { println "Hello $it!" }</code>
+            <code class="java">method(closure)</code>
+        </pre>
+        <pre>
+            <code class="java next bad">method({ println "Hello $it!" })</code>
+            <code class="java next">method { println "Hello $it!" }</code>
+        </pre>
+        <pre class="next">
+            <code class="java">method {</code>
+            <code class="java">     println "Hello $it!"</code>
+            <code class="java">}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>DSL 🤘</h2>
+        <blockquote style="margin-bottom: 15px;">
+                <p style="text-align: justify; margin-bottom: 0px !important;">
+                    A domain-specific language (DSL) is a computer language specialized to a particular application domain.
+                </p>
+        </blockquote>
+        <div class="columns two next">
+            <pre>
+                <code class="java" style="font-size: 20px; line-height: 28px; padding-right: 67px;">pipeline {
+    stage('preparation') {
+        sh './clone.sh'
+        sh './init.sh'
+    }
+
+    stage('build') {
+        sh './build.sh --env=prod'
+        echo 'DONE!'
+    }
+}
+
+</code>
+            </pre>
+            <pre>
+                <code clas="bash" style="font-size: 20px; padding-left: 53px; border-left: 2px solid orange;"># stage preparation
+/bin/sh -c './clone.sh'
+/bin/sh -c './init.sh'
+# stage build
+/bin/sh -c './build.sh --env=prod'
+echo 'DONE!'
+
+
+                </code>
+            </pre>
+        </div>
+    </section>
+
+    <section class="slide clear">
+            <h2>DSL  Example</h2>
+            <div class="columns two">
+                <pre>
+                    <code class="java" style="font-size: 20px; line-height: 27px; padding-left: 60px; padding-right: 25px;">class PipelineBuilder {
+    List&lt;String&gt; cmds = []
+
+    def stage(String name, Closure cl) {
+        cmds << "# stage ${name}"
+        cl()
+    }
+
+    def echo(String command) {
+        cmds << "echo '${command}'"
+    }
+
+    def sh(String command) {
+        cmds << "/bin/sh -c '${command}'"
+    }
+}
+
+</code>
+                </pre>
+
+                <pre>
+                    <code class="java" style="font-size: 20px; line-height: 24px; padding-left: 20px; border-left: 2px solid orange;">def pipeline(Closure cl) {
+    def builder = new PipelineBuilder()
+    cl.delegate = builder
+    cl()
+    builder.cmds.each { println it }
+}
+
+pipeline {
+    stage('preparation') {
+        sh './clone.sh'
+        sh './init.sh'
+    }
+
+    stage('build') {
+        sh './build.sh --env=prod'
+        echo 'DONE!'
+    }
+}
+
+</code>
+                </pre>
+            </div>
+    </section>
+
+<!-- /CLOSURES -->
+
+    <section class="slide clear">
+        <h2>Basic Types</h2>
+        <ul>
+            <li class="next"><b>Lists</b>: <code>def a = [1, 2, 3, 4]</code></li>
+            <li class="next"><b>Maps ⚠️</b>: <code>def b = [city: 'Berlin', state: 'DE']</code></li>
+            <li class="next"><b>GStrings</b>: <code>"x = ${b.city} + ${20 + 22}"</code> → <code>'x = Berlin 42'</code>
+            </li>
+            <li class="next"><b>Strings</b>: <code>'x = ${b.city}'</code> → <code>'x = ${b.city}'</code></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>Lists: Adding</h2>
+        <pre>
+            <code class="java">List a = [1, 2, 3]
+a &lt;&lt; 4 // a == [1, 2, 3, 4]
+a &lt;&lt; [5, 6] // a == [1, 2, 3, 4, [5, 6]]</code>
+        </pre>
+
+        <pre>
+            <code class="java">def a = [1, 2, 3]
+a += [4, 5] // a == [1, 2, 3, 4, 5]</code>
+        </pre>        
+
+        <pre>
+            <code class="java bad">List&lt;Integer&gt; a = [1, 2, 3]
+a.addAll([4, 5]) // ⚠️ returns true, a == [1, 2, 3, 4, 5]</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Lists: Iterating</h2>
+        <code>for</code> → <code>.each</code>
+        <pre><code>[1, 2, 3].each {
+    println "Item: $it"
+}</code></pre>
+        <pre><code class="java">['a', 'b', 'c'].eachWithIndex { it, i ->
+    println "Index = $i, Item = $it"
+}</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Lists: Filtering and Transforming 🎩</h2>
+        <pre><code>[1, 2, 3].collect { it * 2 } // [2, 4, 6]
+[1, 2, 3].find { it > 1 } // 2
+[1, 2, 3].findAll { it > 1 } // [2, 3]</code></pre>
+        <pre>
+        <code class="java">['a', 'b', 'c'].collectEntries { [(it): it.toUpperCase()] }
+// ['a': 'A', 'b': 'B', 'c': 'C']</code></pre>
+        <pre>
+        <code>(0..10).findAll { it % 2 == 0 }.collect { it ** 2 }.sum()
+// 220 = 0 + 4 + 16 + 36 + 64 + 100</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Lists: Slicing 🔪</h2>
+        <pre><code class="java">def a = [1, 2, 3, 4, 5]
+assert a[0] == 1
+assert a[-2] == 4
+assert a[2..4] == [3, 4, 5]
+assert a[4..&lt;2, 0, 0, 4] == [5, 4, 1, 1, 5]</code></pre>
+
+        <pre class="next"><code class="java">assert 'hello'[0, 4..&lt;0] == 'holle'
+assert 'hello'.split('').first() == 'h' // ⚠️ fails if null/[]
+assert 'hello'.split('').last() == 'o' // ⚠️ fails if null/[]</code>
+        </pre>
+    </section>
+
+        <!-- <section class="slide clear">
+            <h2>Lists: Example</h2>
+            <pre><code class="groovy bad">for (comment in pullRequest.comments) {
+        if (comment.user == pullRequest.gitHubClient.user) {
+            comment.delete()
+        }
+    }</code></pre>
+            <pre class="next"><code>pullRequest.comments.findAll {
+        it.user == pullRequest.gitHubClient.user }*.delete()</code></pre>
+        </section> -->
+
+    <section class="slide clear">
+        <h2>Maps: Adding/Merging</h2>
+        <pre>
+            <code class="java">Map a = [key1: 'val1']
+assert a.key1 == 'val1'
+assert a['key1'] == 'val1'</code>
+        </pre>
+
+        <pre class="next">
+            <code class="java">a &lt;&lt; [key2: 'val20', key3: 'val3']
+// a == [key1: 'val1', key2: 'val20', key3: 'val3']</code>
+        </pre>
+
+        <pre class="next">
+            <code class="java">a += [key3: 'val30']
+// a == [key1: 'val1', key2: 'val20', key3: 'val30']</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Maps: Iterating</h2>
+        <code>for</code> → <code>.each</code>
+        <pre><code>[a: 1, b: 2, c: 3].each {
+    println "k = ${it.key}, v = ${it.value}"
+}</code></pre>
+        <pre><code>[a: 1, b: 2, c: 3].each { k, v ->
+    println "k = ${k}, v = ${v}"
+}</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Maps: Filtering and Transforming 🎩</h2>
+        <pre><code>[a: 1, b: 2, c: 3].collect { it.value * 2 } // [2, 4, 6]
+[a: 1, b: 2, c: 3].collect { k, v -> v * 2 } // [2, 4, 6]
+[a: 1, b: 2, c: 3].find { it.value > 1 }.value // 2 ⚠️
+[a: 1, b: 2, c: 3].findAll { it.value > 1 } // [b: 2, c: 3]</code></pre>
+        <pre>
+        <code class="java">['a': 1, 'b': 2, 'c': 3].collectEntries {
+    k, v -> [(k): v ** 3]
+}
+// ['a': 1, 'b': 8, 'c': 27]</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Ranges, Times</h2>
+        <pre>
+                <code>assert (2..5) == [2, 3, 4, 5]
+assert (2..&lt;5) == [2, 3, 4]
+assert (-5..3).step(2) == [-5, -3, -1, 1, 3]</code>
+        </pre>
+
+        <pre class="next">
+                <code>assert ('d'..&lt;'a') == ['d', 'c', 'b']</code>
+        </pre>
+
+        <pre class="next">
+                <code class="java">3.times { println "i = ${it}" }
+// i = 0
+// i = 1
+// i = 2</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Power Assertions 💪</h2>
+        <br />
+        <pre>
+            <code class="java">def expected = [0, 2, 4, 6]</code>
+            <code class="java">assert (0..10).findAll { it % 2 == 0 } == expected</code>
+            <span class="next">
+                <code>               |                       |  |</code>
+                <code>               [0, 2, 4, 6, 8, 10]     |  [0, 2, 4, 6]</code>
+                <code>                                       false</code>
+            </span>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Getters, Setters</h2>
+        <pre>
+                <code>class Company {
+    String name
+}</code>
+        </pre>
+
+        <pre class="next">
+                <code class="bad">def name = company.getName()
+company.setName("whatever")</code>
+        </pre>
+
+        <pre class="next">
+                <code>def name = company.name
+company.name = "whatever"</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Getters, Setters</h2>
+        <pre>
+                <code>class Company {
+    def getInformation() {
+        // implementation
+    }
+}</code>
+        </pre>
+
+        <pre class="next">
+                <code>assert company.getInformation() == company.information</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Getters, Setters</h2>
+        <pre>
+                <code>class A {</code>
+                <code>    <mark class="warning">boolean</mark>  <mark class="warning">is</mark><span style="font-size:10px;"> </span>Something() {</code>
+                <code>        // implementation</code>
+                <code>    }</code>
+                <code>}</code>
+        </pre>
+
+        <pre class="next">
+                <code>def a = new A()
+assert a.isSomething() == a.something</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Elvis Operator <code>?:</code></h2>
+        <pre>
+            <code class="bad">def displayName</code>
+            <code class="bad">if (user.name) {</code>
+            <code class="bad">    displayName = user.name</code>
+            <code class="bad">} else {</code>
+            <code class="bad">    displayName = 'Anonymous'</code>
+            <code class="bad">}</code>
+        </pre>
+        <pre class="next">
+            <code class="bad">def displayName = user.name ? user.name : 'Anonymous'</code>
+        </pre>
+        <pre class="next">
+            <code>def displayName = user.name ?: 'Anonymous'</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Elvis Operator <code>?:</code></h2>
+        <h3 class="next"
+            style="transform: rotate(90deg); font-size: 200px; margin-top:-20px !important; margin-left: -300px !important;">
+            ?:</h3>
+        <span class="next"><img src="images/elvis.jpg" alt="Elvis Presley" style="width: 240px; margin-left:100px;"
+                class="place center ">
+        </span>
+    </section>
+
+    <section class="slide clear">
+        <h2>Star-Dot Operator <code>*.</code></h2>
+        <pre>
+                <code>def a = new Company(name: 'ABC')
+def b = new Company(name: 'BCD')
+def c = new Company(name: 'DEF')</code>
+        </pre>
+        <pre class="next">
+                <code class="java bad">def names = [a, b, c].collect { it.name }
+// ['ABC', 'BCD', 'DEF']</code>
+        </pre>
+        <pre class="next">
+                <code class="java">def names = [a, b, c]*.name</code>
+        </pre>
+        <pre class="next">
+                <code class="java">assert [a, b, c]*.name*.toLowerCase() == ['abc', 'bcd', 'def']</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Null-Safe Navigation <code>?.</code></h2>
+        <pre>
+                <code>class Company {</code>
+                <code>    Address address</code>
+                <code>}</code>
+        </pre>
+        <pre class="next">
+                <code class="bad">if (company != null && company.address != null && </code>
+                <code class="bad">    company.address.street != null) {</code>
+                <code class="bad">    println company.address.street.name</code>
+                <code class="bad">}</code>
+        </pre>
+        <pre class="next">
+                <code>println company?.address?.street?.name</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Crouching <code>private</code>, hidden <code>public</code></h2>
+
+        <ul class="next">
+            <li><code>public</code> is default</li>
+            <pre>
+                <code><span class="strike">public</span> def sum(def a, def b) { a + b }</code>
+            </pre>
+        </ul>
+        <ul>
+            <li class="next">🤷‍♂️ <code>private</code> & <code>protected</code> are accessible by <a target=_blank
+                    href="https://issues.apache.org/jira/browse/GROOVY-1875">anyone</a></li>
+            <li class="next">⚠️ IntelliJ doesn't detect usage of <code>private</code> methods in tests.
+                <br /><code>private</code> → <code>protected</code> 👍</li>
+            <li class="next">💡 <code>PPP</code> are <strike>access modifiers</strike> semantic notations</li>
+            </ol>
+    </section>
+
+    <!-- <section class="slide clear">
+        <h2>Crouching <code>private</code>, hidden <code>public</code></h2>
+        <br />
         <figure>
             <blockquote>
-                <p>Technically, this is a bug in Groovy (that has been there since day one), but it's so insanely useful, no one has bothered to fix it. <b>And I hope they never do.</b> In any language with strong reflection capabilities, the private keyword is not much more than documentation anyway: I can always use reflection to get to it if the need arises.</p>
-                <br/>
+                <p style="text-align: justify;">Technically, this is a bug in Groovy (that has been there since day
+                    one), but it's so insanely useful, no one has bothered to fix it. <b>And I hope they never do.</b>
+                    In any language with strong reflection capabilities, the private keyword is not much more than
+                    documentation anyway: I can always use reflection to get to it if the need arises.</p>
+                <br />
             </blockquote>
             <figcaption style="text-align:right">Neil Ford, "The Productive Programmer"</figcaption>
         </figure>
+    </section> -->
+
+    <section class="slide clear">
+        <h2>Power Switch 🔌</h2>
+        <pre>
+                <code class="java" style="font-size: 17px;">def testSwitch(val) {
+    def result
+    switch (val) {
+        case 60..90:
+            result = 'Range contains'; break
+        case [21, 'test', 9.12]:
+            result = 'List contains'; break
+        case { it instanceof Integer && it < 50 }:
+            result = 'Closure boolean'; break
+    }
+    result
+}
+assert testSwitch(21) == 'List contains'</code>
+            </pre>
     </section>
 
     <section class="slide clear">
-        <h2>Autoformatting with IntelliJ</h2>
+        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java">    def entries = changeLogSets[i].items</code>
+            <code class="java">    for (int j = 0; j < entries.length; j++) {</code>
+            <code class="java">        def entry = entries[j]</code>
+            <code class="java">        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java">        def files = new ArrayList(entry.affectedFiles)</code>
+            <code class="java">        for (int k = 0; k < files.size(); k++) {</code>
+            <code class="java">            def file = files[k]</code>
+            <code class="java">            body(jenkinsFileNames, entry, file)</code>
+            <code class="java">        }</code>
+            <code class="java">    }</code>
+            <code class="java">}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java bad">    def entries = changeLogSets[i].items</code>
+            <code class="java bad">    for (int j = 0; j < entries.length; j++) {</code>
+            <code class="java bad">        def entry = entries[j]</code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java bad">        def files = new ArrayList(entry.affectedFiles)</code>
+            <code class="java bad">        for (int k = 0; k < files.size(); k++) {</code>
+            <code class="java bad">            def file = files[k]</code>
+            <code class="java bad">            body(jenkinsFileNames, entry, file)</code>
+            <code class="java bad">        }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java bad">    def entries = changeLogSets[i].items</code>
+            <code class="java bad">    for (int j = 0; j < entries.length; j++) {</code>
+            <code class="java bad">        def entry = entries[j]</code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java bad">        def files = new ArrayList(entry.affectedFiles)</code>
+            <code class="java bad">        for (int k = 0; k < files.size(); k++) {</code>
+            <code class="java bad">            body(jenkinsFileNames, entry, files[k])</code>
+            <code class="java bad">        }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java bad">    def entries = changeLogSets[i].items</code>
+            <code class="java bad">    for (int j = 0; j < entries.length; j++) {</code>
+            <code class="java bad">        def entry = entries[j]</code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java bad">        for (int k = 0; k < entry.affectedFiles.size(); k++) {</code>
+            <code class="java bad">            body(jenkinsFileNames, entry, entry.affectedFiles[k])</code>
+            <code class="java bad">        }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java bad">    def entries = changeLogSets[i].items</code>
+            <code class="java bad">    for (int j = 0; j < entries.length; j++) {</code>
+            <code class="java bad">        def entry = entries[j]</code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-03.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
+            <code class="java bad">    def entries = changeLogSets[i].items</code>
+            <code class="java"    >    entries.each { entry -> </code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-04.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">changeLogSets.each { changeLogSet -> </code>
+            <code class="java bad">    def entries = changeLogSet.items</code>
+            <code class="java"    >    entries.each { entry -> </code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-05.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">changeLogSets.each { changeLogSet -> </code>
+            <code class="java bad"    >    changeLogSet.items.each { entry -> </code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-06.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
+            <code class="java bad">changeLogSets*.items.each { entries -> </code>
+            <code class="java"    >    entries.each { entry -> </code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Refactoring Example <img src="images/brain-07.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <pre style="font-size: 17px;">
+            <code class="java"    >currentBuild.changeSets*.items.each { entries -> </code>
+            <code class="java"    >    entries.each { entry -> </code>
+            <code class="java"    >        echo "${entry.commitId} by ${entry.author} on ${entry.timestamp}: ${entry.msg}"</code>
+            <code class="java"    >        entry.affectedFiles.each { body(jenkinsFileNames, entry, it) }</code>
+            <code class="java"    >    }</code>
+            <code class="java"    >}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>CodeNarc 👮‍‍</h2>
+        <blockquote style="margin-bottom: 15px;">
+            <a target=_blank href="http://codenarc.sourceforge.net/">CodeNarc</a> analyzes Groovy code for defects, bad
+            practices, inconsistencies, style issues and more.
+            A flexible framework for rules, rulesets and custom rules means it's easy to configure CodeNarc to fit into
+            your project.
+        </blockquote>
+        <span class="next">
+            <img src="images/violations.png" class="place center bottom" style="margin-bottom: 70px;">
+            <p class="place center bottom" style="font-size: 16px; font-style: italic;">jenkins-job-dsl-seed-jobs, 11k
+                LOC</p>
+        </span>
+    </section>
+
+    <section class="slide clear">
+        <h2>Autoformatting Code <img src="images/intellij.svg" style="height: 54px; vertical-align: middle;"></h2>
         <span class="next">
             <h3>
                 <code>⌥ ⌘ L</code>
@@ -120,23 +929,129 @@
             </h3>
         </span>
 
-        <img class="next place center bottom" src="http://icons.iconarchive.com/icons/tatice/cristal-intense/256/Rubiks-cube-2-icon.png"
-            style="width: 100px; padding-bottom: 40px;">
-        <img class="next place center bottom" src="http://icons.iconarchive.com/icons/tatice/cristal-intense/256/Rubiks-cube-icon.png"
-            style="width: 100px; padding-bottom: 40px;">
-     </section>
+        <img src="images/no-ocd.png" class="next place center bottom" style="width: 100px; padding-bottom: 40px;">
+        <img src="images/yes-ocd.png" class="next place center bottom" style="width: 100px; padding-bottom: 40px;">
+    </section>
 
-    <section class="slide clear" style="background-color: black">
-        <img src="https://pepelsbey.net/pres/inhuman-ui/pictures/arigato.jpg"
-             class="cover">
+    <section class="slide clear">
+        <h2>Testing</h2>
+        <blockquote style="margin-bottom: 15px;">
+            <a target=_blank href="http://spockframework.org/">Spock</a> is a testing and specification framework for Java and Groovy
+            applications.
+            What makes it stand out from the crowd is its beautiful and highly expressive specification language.
+        </blockquote>
+        <span class="next">
+            Test structure:
+            <uls>
+                <li style="font-size: 24px;"><code>given</code>: setup</li>
+                <li style="font-size: 24px;"><code>when</code>: method invocation</li>
+                <li style="font-size: 24px;"><code>then</code>: result check</li>
+                <li style="font-size: 24px;"><code>expect</code>: <code>when</code> + <code>then</code></li>
+                <li style="font-size: 24px;"><code>where</code>: parametrization</li>
+            </ul>
+        </span>
+    </section>
+
+    <section class="slide clear">
+        <h2>Testing</h2>
+        <pre style="font-size: 16px;">
+            <code class="java">def "mply: tests multiply function"() {</code>
+            <code class="java bad">     when:</code>
+            <code class="java bad">     def result = mply(a, b)</code>
+            <code class="java bad">     </code>
+            <code class="java bad">     then:</code>
+            <code class="java bad">     assert result == expected</code>
+            <code class="java"> </code>
+            <code class="java">     where:</code>
+            <code class="java">     a  | b    | expected</code>
+            <code class="java">     3  | 4    | 12</code>
+            <code class="java">     0  | 1000 | 0</code>
+            <code class="java">     -1 | -1   | 1</code>
+            <code class="java">}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Testing</h2>
+        <pre style="font-size: 16px;">
+            <code class="java">def "mply: tests multiply function"() {</code>
+            <code class="java">     expect:</code>
+            <code class="java">     mply(a, b) == expected</code>
+            <code class="java">     </code>
+            <code class="java">     where:</code>
+            <code class="java">     a  | b    | expected</code>
+            <code class="java">     3  | 4    | 12</code>
+            <code class="java">     0  | 1000 | 0</code>
+            <code class="java">     -1 | -1   | 1</code>
+            <code class="java">}</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>StackOverflow.com? 😒</h2>
+
+        <div class="place center next" style="text-align: center;">
+            <img src="images/mrhaki.jpg" alt="mrhaki" style="width: 220px;">
+            <br />
+            <a target=_blank href="https://www.mrhaki.com/">mrhaki.com</a>
+        </div>
+        <pre class="place bottom next"><code style="font-size: 18px;">assert ['Hubert', 'Alexander', 'Klein', 'Ikkink'].inject('mr') { nickname, name ->
+    nickname + name[0].toLowerCase()
+} == 'mrhaki'</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Awesome Tools 😍</h2>
+        <ul>
+            <li class="next"><a target=_blank href="https://learnxinyminutes.com/docs/groovy/">Learn X in Y minutes</a>
+            </li>
+            <li class="next"><a target=_blank href="https://groovy-lang.org/groovysh.html">groovysh</a></li>
+            <li class="next"><a target=_blank href="https://groovy-playground.appspot.com/">Groovy Playground</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>Recommended Links 🔗</h2>
+        <ul>
+            <li class="next"><a target=_blank href="http://groovy-lang.org/style-guide.html">Style Guide</a></li>
+            <li class="next"><a target=_blank
+                    href="http://docs.groovy-lang.org/latest/html/documentation/working-with-collections.html">Working
+                    with collections</a></li>
+            <li class="next">* <a target=_blank
+                    href="http://docs.groovy-lang.org/docs/latest/html/documentation/core-domain-specific-languages.html">DSL
+                    in Groovy</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2>How to Write Good Groovy Code 🤔</h2>
+        <span><img src="images/tolstoy.jpg" alt="Leo Tolstoy" style="height: 300px; margin-left: 25%;"
+                class="place left"></span>
+        <span><img src="images/hemingway.jpg" alt="Ernest Hemingway" style="height: 300px; margin-right: 25%;"
+                class="place right"></span>
+
+        <span class="next">
+            <span class="place bottom left" style="margin-left: 34%;">
+                <h3>👎</h3>
+            </span>
+            <span class="place bottom right" style="margin-right: 34%;">
+                <h3>👍</h3>
+            </span>
+        </span>
+        <span class="next place bottom">
+            <p style="margin-bottom: 10px; font-style: italic;">«How can I make it shorter?»</p>
+        </span>
+    </section>
+
+    <section class="slide clear" style="background-color: black;">
+        <img src="images/arigator.jpg" alt="Thank you!" class="cover">
     </section>
 
     <section class="slide clear">
         <h2 class="shout">Questions?</h2>
     </section>
 
-
     <script src="shower/shower.min.js"></script>
-
 </body>
+
 </html>
