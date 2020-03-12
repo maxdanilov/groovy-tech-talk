@@ -109,8 +109,6 @@
             </li>
             <li class="next">Used for scripting & backend</li>
             <li class="next">High development speed</li>
-            <li class="next">14<sup>th</sup> in <a target=_blank href="https://www.tiobe.com/tiobe-index/">TIOBE</a>
-                (Nov. 2019)</li>
         </ul>
     </section>
 
@@ -125,13 +123,37 @@
     </section>
 
     <section class="slide clear">
-        <h2>Compability with Java</h2>
-        <p>Not supported:</p>
+        <h2>Disclaimer 🗒</h2>
+
         <ul>
-            <li>Lambda functions</li>
-            <li><code>do-while</code> loops</li>
-            <li><a target=_blank href="https://groovy-lang.org/differences.html">other small things</a></li>
+            <li class="next">Groovy 3.0 released in Feb 2020 🐣</li>
+            <li class="next">Currently, &nbsp;Jenkins supports Groovy 2.4</li>
+            <li class="next">This talk does not cover 3.0 features</li>
         </ul>
+
+        <div class="next">
+            <p>Notations:</p>
+            <pre>
+                <code class="bad java">// don't do like this</code>
+            </pre>
+            <pre>
+                <code class="java">// better like this</code>
+            </pre>
+        </div>
+    </section>
+
+    <section class="slide clear">
+        <h2>Differences with Java</h2>
+
+        <div class="next">
+            <p>Not supported:</p>
+            <ul>
+                <li>Lambda functions syntax (added in 3.0)</li>
+                <li><code>do-while</code> loops (added in 3.0)</li>
+                <li>ARM blocks (added in 3.0)</li>
+                <li><a target=_blank href="https://groovy-lang.org/differences.html">other small things</a></li>
+            </ul>
+        </div>
     </section>
 
     <section class="slide clear">
@@ -148,13 +170,29 @@ Integer b = 123
 def c = "123" as Integer</code>
         </pre>
         <ul class="next">
-            <li>local vars can be <code>def</code> or type-specific</li>
-            <li>method signatures should be as type-specific as possible</li>
+            <li>Agreement: local vars can be <code>def</code> or type-specific</li>
+            <li>Agreement: method signatures should be as type-specific as possible</li>
         </ul>
         <pre class="next java" style="margin-bottom: 0px;"><code class="bad">def calc(def x, def y)</code></pre>
         <pre class="next java"
             style="margin-bottom: 0px;"><code class="bad">def calc(x, y) // def in params can be skipped</code></pre>
         <pre class="next java" style="margin-bottom: 0px;"><code>Float calc(Float x, Integer y)</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Multimethods</h2>
+        <pre>
+            <code class="java">int method(String arg) { return 1; }
+int method(Object arg) { return 2; }
+Object o = "Object";
+int result = method(o);</code></pre>
+
+        <pre class="next java">
+            <code class>assertEquals(2, result); // in Java</code>
+        </pre>
+        <pre class="next java">
+            <code class>assertEquals(1, result); // in Groovy ⚠️</code>
+        </pre>
     </section>
 
     <section class="slide clear">
@@ -190,8 +228,8 @@ def c = "123" as Integer</code>
             <code>println sum(4, 5)</code>
         </pre>
         <pre class="next">
-            <code>def noparam() { 123 }</code>
-            <code>def c = noparam()</code>
+            <code>def noParam() { 123 }</code>
+            <code>def c = noParam()</code>
         </pre>
     </section>
 
@@ -262,7 +300,7 @@ if (a) {
             <code class="java" style="font-size: 22px;">    def value() { "A" }</code>
             <code class="java" style="font-size: 22px;">    def cl = { "value = ${value()}" } </code>
             <code class="java" style="font-size: 22px;">} </code>
-            <code class="java" style="font-size: 22px;">println new One().cl() <span class="next">// A</span></code>
+            <code class="java" style="font-size: 22px;">println new One().cl() <span class="next">// value = A</span></code>
         </pre>
     </section>
 
@@ -339,6 +377,14 @@ calendar.with {
     </section>
 
     <section class="slide clear">
+        <h2>Groovy Closures vs Java Lambdas</h2>
+        <ul>
+            <li>Lambdas cannot access non-final objects from surrounding scope</li>
+            <li>Lambdas do not have a delegation strategy that can be changed</li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
         <h2>DSL 🤘</h2>
         <blockquote style="margin-bottom: 15px;">
                 <p style="text-align: justify; margin-bottom: 0px !important;">
@@ -376,7 +422,7 @@ echo 'DONE!'
     </section>
 
     <section class="slide clear">
-            <h2>DSL  Example</h2>
+            <h2>DSL: Example</h2>
             <div class="columns two">
                 <pre>
                     <code class="java" style="font-size: 20px; line-height: 27px; padding-left: 60px; padding-right: 25px;">class PipelineBuilder {
@@ -538,6 +584,13 @@ assert a['key1'] == 'val1'</code>
     </section>
 
     <section class="slide clear">
+        <h2><code>in</code> operator</h2>
+        <pre><code class='java'>'a' in ['a', 'b', 'c'] // true
+'b' in [a: 1, b: 2, c: 3] // true
+'a' in null // false</code></pre>
+    </section>
+
+    <section class="slide clear">
         <h2>Ranges, Times</h2>
         <pre>
                 <code>assert (2..5) == [2, 3, 4, 5]
@@ -573,6 +626,7 @@ assert (-5..3).step(2) == [-5, -3, -1, 1, 3]</code>
 
     <section class="slide clear">
         <h2>Getters, Setters</h2>
+        <p><b>Properties</b> &mdash; fields without access modifier</p>
         <pre>
                 <code>class Company {
     String name
@@ -618,6 +672,46 @@ company.name = "whatever"</code>
         <pre class="next">
                 <code>def a = new A()
 assert a.isSomething() == a.something</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Map Constructors 🗺</h2>
+        <pre>
+                <code class="java">class Person {</code>
+                <code class="java">    String firstName</code>
+                <code class="java">    String lastName</code>
+                <code class="java">    String fullName() {</code>
+                <code class="java">        "${firstName} ${lastName}"</code>
+                <code class="java">    }</code>
+                <code class="java">}</code>
+        </pre>
+
+        <pre class="next">
+                <code class="java">def p = new Person(firstName: 'John', lastName: 'Doe')</code>
+                <code class="java">assert p.fullName() == 'John Doe'</code>
+        </pre>
+    </section>
+    
+    <section class="slide clear">
+        <h2>The <code>call</code> method 📞</h2>
+        <pre>
+                <code class="java" style="line-height: 37px;">class A {
+    def call(Integer x) { "got int" }
+    def call(Float x) { "got float" }
+    def call(Object x) { "got something else" }
+    def call() { "got nothing" }
+}
+                
+def a = new A()
+println a() // got nothing
+println a(1) // got int
+println a(2.5f) // got float
+println a('abc') // got something else</code>
+        </pre>
+
+        <pre class="next">
+                <code class="java">def p = new Person(firstName: 'John', lastName: 'Doe')</code>
         </pre>
     </section>
 
@@ -724,7 +818,31 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>RegExes</h2>
+        <pre>
+                <code class="java">def finder = ('groovy' <mark class="warning">==~</mark> /gr.*/)
+assert finder == true</code>
+        </pre>
+        <pre><code class="java">def group = ('groovy and grails, ruby and rails' <mark class="warning">=~</mark> 
+            /(\w+) and (\w+)/)
+assert group instanceof java.util.regex.Matcher
+assert 2 == group.size()
+assert ['groovy and grails', 'groovy', 'grails'] == group[0]
+assert ['ruby and rails', 'ruby', 'rails'] == group[1]</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Example: JSON fetching & parsing</h2>
+        <pre><code class="java">import groovy.json.JsonSlurper
+
+String url = 'https://jsonplaceholder.typicode.com/todos/1'
+String response = url.toURL().text
+def contents = new JsonSlurper().parseText(response)
+assert contents.title == 'delectus aut autem'</code></pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Example: Refactoring <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -743,7 +861,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -762,7 +880,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-01.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -780,7 +898,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -797,7 +915,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-02.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -812,7 +930,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-03.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-03.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">for (int i = 0; i < changeLogSets.size(); i++) {</code>
@@ -826,7 +944,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-04.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-04.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">changeLogSets.each { changeLogSet -> </code>
@@ -840,7 +958,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-05.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-05.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">changeLogSets.each { changeLogSet -> </code>
@@ -853,7 +971,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-06.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-06.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java bad">def changeLogSets = currentBuild.changeSets ?: []</code>
             <code class="java bad">changeLogSets*.items.each { entries -> </code>
@@ -866,7 +984,7 @@ assert testSwitch(21) == 'List contains'</code>
     </section>
 
     <section class="slide clear">
-        <h2>Refactoring Example <img src="images/brain-07.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
+        <h2>Example: Refactoring <img src="images/brain-07.jpg" style="height: 54px; width: 84px; vertical-align: middle;"></h2>
         <pre style="font-size: 17px;">
             <code class="java"    >currentBuild.changeSets*.items.each { entries -> </code>
             <code class="java"    >    entries.each { entry -> </code>
@@ -875,6 +993,83 @@ assert testSwitch(21) == 'List contains'</code>
             <code class="java"    >    }</code>
             <code class="java"    >}</code>
         </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Traits</h2>
+        <blockquote style="margin-bottom: 15px;">
+            Traits are a structural construct of the language which allows:<br/>
+            - composition of behaviors<br/>
+            - runtime implementation of interfaces<br/>
+            - behavior overriding<br/>
+            - compatibility with static type checking/compilation<br/>
+        </blockquote>
+        <p>
+            They can be seen as <b>interfaces</b> carrying both default implementations and state.
+        </p>
+    </section>
+
+    <section class="slide clear">
+        <h2>Traits: Example</h2>
+        <pre>
+            <code class="java" style="line-height: 40px;">trait Greetable {
+    abstract String name()                              
+    String greeting() { "Hello, ${name()}!" }           
+}
+
+class Person implements Greetable {                     
+    String name() { 'Bob' }                             
+}
+
+def p = new Person()
+assert p.greeting() == 'Hello, Bob!'    
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Traits: Composition</h2>
+        <pre>
+            <code class="java" style="line-height: 35px;">trait FlyingAbility {                           
+    String fly() { 'I am flying!' }          
+}
+
+trait SpeakingAbility {
+    String speak() { 'I am speaking!' }
+}
+ </code>
+<code class="next" style="line-height: 35px;">class Duck implements FlyingAbility, SpeakingAbility {}
+
+def d = new Duck()                                      
+assert d.fly() == 'I am flying!'
+assert d.speak() == 'I am speaking!'</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Traits: in Runtime 🏃‍♂️</h2>
+        <pre>
+            <code class="java">trait Extra {
+    String extra() { 'Extra method' }            
+}
+class Something {                                       
+    String doSomething() { 'Something' }                
+}</code>
+<code class="next">def s = new Something() as Extra                        
+println s.extra()                                               
+println s.doSomething()</code>
+        </pre>
+    </section>
+
+    <section class="slide clear">
+        <h2>Groovy in Jenkins <img src="images/jenkins.png" style="height: 54px; width: 44px; vertical-align: middle;"></h2>
+        <ul>
+            <li class="next">Jenkins uses custom <a href="https://github.com/jenkinsci/workflow-cps-plugin">Groovy interpreter plugin</a> for pipelines (Groovy 2.4)</li>
+            <li class="next">Plugin does <a href="https://github.com/cloudbees/groovy-cps/blob/master/doc/cps-basics.md">Continuation-passing style transformation</a> (CPS) to the pipeline code</li>
+            <li class="next">Some things are not CPS-convertible (e.g. overriding methods in binary classes) and need to be annotated with <code>@NonCPS</code></li>
+            <li class="next">the state of a Pipeline script is saved to disk every time an asynchronous operation is performed <!--(most Pipeline steps)--></li>
+            <li class="next">If Jenkins restarts, it can continue an interrupted pipeline</li>
+        </ul>
     </section>
 
     <section class="slide clear">
@@ -890,21 +1085,6 @@ assert testSwitch(21) == 'List contains'</code>
             <p class="place center bottom" style="font-size: 16px; font-style: italic;">jenkins-job-dsl-seed-jobs, 11k
                 LOC</p>
         </span>
-    </section>
-
-    <section class="slide clear">
-        <h2>Autoformatting Code <img src="images/intellij.svg" style="height: 54px; vertical-align: middle;"></h2>
-        <span class="next">
-            <h3>
-                <code>⌥ ⌘ L</code>
-            </h3>
-            <h3>
-                <code>Shift + Alt + L</code>
-            </h3>
-        </span>
-
-        <img src="images/no-ocd.png" class="next place center bottom" style="width: 100px; padding-bottom: 40px;">
-        <img src="images/yes-ocd.png" class="next place center bottom" style="width: 100px; padding-bottom: 40px;">
     </section>
 
     <section class="slide clear">
@@ -967,7 +1147,7 @@ assert testSwitch(21) == 'List contains'</code>
         <div class="place center next" style="text-align: center;">
             <img src="images/mrhaki.jpg" alt="mrhaki" style="width: 220px;">
             <br />
-            <a target=_blank href="https://www.mrhaki.com/">mrhaki.com</a>
+            <a target=_blank href="https://www.mrhaki.com/">mrhaki.com</a> (Groovy Goodness Blog)
         </div>
         <pre class="place bottom next"><code style="font-size: 18px;">assert ['Hubert', 'Alexander', 'Klein', 'Ikkink'].inject('mr') { nickname, name ->
     nickname + name[0].toLowerCase()
@@ -980,7 +1160,8 @@ assert testSwitch(21) == 'List contains'</code>
             <li class="next"><a target=_blank href="https://learnxinyminutes.com/docs/groovy/">Learn X in Y minutes</a>
             </li>
             <li class="next"><a target=_blank href="https://groovy-lang.org/groovysh.html">groovysh</a></li>
-            <li class="next"><a target=_blank href="https://groovy-playground.appspot.com/">Groovy Playground</a></li>
+            <li class="next"><a target=_blank href="https://groovyconsole.appspot.com/">Groovy Web Console</a></li>
+            <li class="next"><a target=_blank href="https://www.jetbrains.com/help/idea/launching-groovy-interaction-console.html">IntelliJ Groovy Console</a></li>
         </ul>
     </section>
 
